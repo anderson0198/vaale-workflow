@@ -1,0 +1,76 @@
+server:
+  servlet:
+      context-path: /vaale-bankpayment-services
+  port: 5000
+
+spring:
+  profiles:
+    active:
+      - development
+
+---
+spring:
+  profiles: development
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+  # ===============================
+  # DATABASE CONNECTION
+  # ===============================
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    hikari:
+      connection-timeout: 50000 # Tiempo de espera en milisegundos
+      minimum-idle: 1
+      maximum-pool-size: 10
+      idle-timeout: 50000
+      leak-detection-threshold: 50000
+
+  # ===============================
+  # JPA / HIBERNATE
+  # ===============================
+  jpa:
+    hibernate:
+      # To be updated in real production usage!
+      ddl-auto: none
+    show-sql: false
+
+  jmx:
+    default_domain: co.vaale.bankpayment.service
+
+# ===============================
+# Spring doc
+# ===============================
+springdoc:
+  version: 1.5.1
+  api-docs:
+    groups:
+      enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+  show-actuator: true
+
+# ===============================
+# Jooq
+# ===============================
+
+logging:
+  level:
+    org:
+      jooq:
+        tools:
+          LoggerListener: DEBUG
+

@@ -1,0 +1,195 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vaale-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: vaale-api
+  name: vaale-bankpayment-service
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vaale-bankpayment-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vaale-bankpayment-service
+    spec:
+      serviceAccountName: vaale-prod-secret-manager
+      volumes:
+      - name: api-secret
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "aws-secret-vaale-application"
+      containers:
+      - image: 264532671857.dkr.ecr.us-east-1.amazonaws.com/vaale-prod-images-2:vaale-bankpayment-ms
+        imagePullPolicy: Always
+        name: vaale-bankpayment-service
+        ports:
+        - containerPort: 5000
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: dbhost
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: dbpassword
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: dbport
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: dbuser
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: dbname
+        - name: PORT
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: port
+        - name: S3_REGION
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: s3region
+        - name: S3_BUCKET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: s3bucketaccesskey
+        - name: S3_BUCKET_ID_KEY
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: s3bucketidentifier
+        - name: S3_BUCKET_NAME
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: s3bucketname 
+        - name: STACK_ID
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: stackid 
+        - name: API_LOAN_CLIENT_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apiloanclientservices
+        - name: API_ACCOUNT_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apiaccountservices
+        - name: API_ASSETS_UPLOAD_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apiassetsuploadservices
+        - name: API_COMMERCE_REPORT_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apicommercereportservices
+        - name: API_COMMERCE_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apicommerceservices
+        - name: API_DASHBOARD_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apidashboardservices
+        - name: API_DILOQ_CHATBOT_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apidiloqchatbotservices
+        - name: API_LOAN_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apiloanservices
+        - name: API_ONBOARDING_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apionboardingservices
+        - name: API_PARAMETER_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apiparameterservices
+        - name: API_LOAN_PARAMETER_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apiloanparameterservices
+        - name: API_IDENTIFICATION_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apiidentificationservices
+        - name: API_ORIGINATION_SERVICES
+          valueFrom:
+            secretKeyRef:
+              name: my-secret-01
+              key: apioriginationservices
+        volumeMounts:
+        - name: api-secret
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: vaale-api
+  name: vaale-bankpayment-service
+spec:
+  ports:
+    - port: 5000
+      targetPort: 5000
+      protocol: TCP
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: vaale-bankpayment-service
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: vaale-api
+  name: ingress-vaale-bankpayment-service
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: vaale-bankpayment-service
+              port:
+                number: 5000
