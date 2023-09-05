@@ -1,6 +1,6 @@
 server:
   servlet:
-      context-path: /vaale-bankpayment-services
+      context-path: /vaale-workflow-services
   port: 5000
 
 spring:
@@ -10,6 +10,15 @@ spring:
 
 ---
 spring:
+  mail-sender:
+    host: smtp.gmail.com
+    port: 587
+    username: anderson.paz198@asys.edu.co
+    password: paz1036950198paz
+    protocol: smtp
+    auth: true
+    starttls-enable: true
+    debug: true
   profiles: development
 
   servlet:
@@ -25,9 +34,9 @@ spring:
   # ===============================
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost/lenpli?serverTimezone=UTC
+    username: root
+    password: 12345678
     hikari:
       connection-timeout: 50000 # Tiempo de espera en milisegundos
       minimum-idle: 1
@@ -45,7 +54,7 @@ spring:
     show-sql: false
 
   jmx:
-    default_domain: co.vaale.bankpayment.service
+    default_domain: co.vaale.workflow.service
 
 # ===============================
 # Spring doc

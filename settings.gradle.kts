@@ -1,1 +1,1 @@
-rootProject.name = "vaale-bankpayment-ms"
+rootProject.name = "vaale-workflow"

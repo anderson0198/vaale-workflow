@@ -47,7 +47,21 @@ dependencies {
 	implementation("org.jooq:jooq:3.13.2")
 	runtimeOnly("mysql:mysql-connector-java")
 
+	//implementation(group = "org.springframework.boot", name = "spring-boot-starter-mail", version = "3.0.1")
+	//implementation(group = "javax.mail", name = "mail", version = "1.5.0-b01")
+
+	implementation("org.springframework.boot:spring-boot-starter-mail")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	// https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+	implementation ("com.squareup.okhttp3:okhttp:4.9.3")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	//implementation("com.google.cloud:google-cloud-bigquery:2.31.1")
+
+	// https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-sns
+	implementation("com.amazonaws:aws-java-sdk-sns:1.12.393")
+
+
 }
 
 tasks.withType<KotlinCompile> {
