@@ -1,6 +1,5 @@
 package co.vaale.workflow
 
-import co.vaale.workflow.h2h.service.CreateWppComponentService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.ExitCodeGenerator
 import org.springframework.boot.autoconfigure.SpringBootApplication

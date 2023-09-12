@@ -1,17 +1,17 @@
 package co.vaale.workflow.h2h.service
 
-import co.vaale.workflow.Application
+import co.vaale.workflow.h2h.port.out.ISendWpp
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.springframework.boot.runApplication
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 import java.util.concurrent.TimeUnit
 @Service
-class SendWhatsappService {
+class SendWhatsappService : ISendWpp {
 
-    fun send(to: String, name: String, components: String, phoneNumberId: String) {
+    override fun send(to: String, name: String, components: String, phoneNumberId: String) {
         val client: OkHttpClient = OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)

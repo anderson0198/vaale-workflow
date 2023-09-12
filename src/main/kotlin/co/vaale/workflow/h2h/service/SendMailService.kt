@@ -2,13 +2,23 @@ package co.vaale.workflow.h2h.service
 
 import co.com.groupware.common.utils.SendEmail
 import co.vaale.workflow.Application
+import co.vaale.workflow.h2h.port.out.ICreateCSV
+import co.vaale.workflow.h2h.port.out.ISendMail
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.runApplication
 import org.springframework.stereotype.Service
 import java.io.BufferedReader
+import java.io.File
+import javax.activation.DataHandler
+import javax.mail.internet.MimeBodyPart
+import javax.mail.internet.MimeMultipart
+import javax.mail.util.ByteArrayDataSource
 
 @Service
-class SendMailService {
-    fun sendMail(to: String, reply: String) {
+class SendMailService :ISendMail {
+    @Autowired
+    private lateinit var createCSVPort: ICreateCSV
+    override fun sendMail(to: String, reply: String, byteArray: ByteArray) {
         try {
             val emailUsername = "hey@vaale.co"
             val emailPassword = "mepzvfejrymcewqr"
@@ -26,8 +36,8 @@ class SendMailService {
                 to,
                 "Vaale <> Reporte ",
                 message,
-                null,
-                null,
+                byteArray,
+                "ReporteDeClientesConDeudaActiva.csv",
                 emailUsername,
                 emailPassword,
                 emailHost,
@@ -37,13 +47,27 @@ class SendMailService {
             println("--ERROR sendMail ${e.message}")
         }
     }
-}
-fun main(args: Array<String>) {
-    val context = runApplication<Application>(*args)
 
-    val sendMailService = context.getBean(SendMailService::class.java)
-    sendMailService.sendMail("anderson@vaale.co","nn")
+    override fun getTo(activityList: List<Map<String, Any?>>) : String? {
+        var result: String? = null
+        for (activity in activityList) {
+            if (activity != null) {
+                val to = activity["segment_file_to"] as String?
+                result = to
+                if (result != null && result!= ""){
+                    break
+                }
+            }
+        }
+        return result
+    }
 
-    // Cerrar el contexto de Spring
-    context.close()
+    override fun invoke(clientList: List<Map<String, Any?>>, to: String) {
+            if (to != null && to !="") {
+                val byteArray = createCSVPort.createCsvFile(clientList)
+                sendMail(to, "", byteArray)
+            }
+    }
+
+
 }

@@ -12,13 +12,14 @@ import org.springframework.stereotype.Repository
 import java.sql.CallableStatement
 import java.sql.ResultSet
 import java.sql.SQLException
+import java.sql.Time
 import javax.swing.text.Segment
 @Repository
 class SegmentRepository : ISegmentRepository {
 
     @Autowired
     private lateinit var dsl: DSLContext
-    override fun getActivityByProcessId(data: String): List<Map<String, Any>> {
+    override fun getProcessByTime(data: Time): List<Map<String, Any>> {
         val rows: MutableList<Map<String, Any>> = ArrayList()
         val conn = dsl.configuration().connectionProvider().acquire()
         val query = "{ CALL lenpli.getSegment(?)}"
@@ -27,7 +28,7 @@ class SegmentRepository : ISegmentRepository {
         var rs: ResultSet? = null
         try {
             cStmt = conn.prepareCall(query)
-            cStmt.setString(1, data)
+            cStmt.setTime(1, data)
             rs = cStmt.executeQuery()
 
             while (rs.next()) {
@@ -38,7 +39,7 @@ class SegmentRepository : ISegmentRepository {
                 val filterOperation = rs.getString(4)
                 val filterAttributeName = rs.getString(5)
                 val filterSegmentId = rs.getLong(6)
-                val filerValue = rs.getString(7)
+                val filterValue = rs.getString(7)
 
                 val processId = rs.getLong(8)
                 val processName = rs.getString(9)
@@ -56,7 +57,7 @@ class SegmentRepository : ISegmentRepository {
                         "filterOperation" to filterOperation,
                         "filterAttributeName" to filterAttributeName,
                         "filterSegmentId" to filterSegmentId,
-                        "filerValue" to filerValue,
+                        "filterValue" to filterValue,
                         "processId" to processId,
                         "processName" to processName,
                         "processSegmentId" to processSegmentId

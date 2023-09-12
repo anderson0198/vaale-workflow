@@ -10,15 +10,6 @@ spring:
 
 ---
 spring:
-  mail-sender:
-    host: smtp.gmail.com
-    port: 587
-    username: anderson.paz198@asys.edu.co
-    password: paz1036950198paz
-    protocol: smtp
-    auth: true
-    starttls-enable: true
-    debug: true
   profiles: development
 
   servlet:
@@ -83,3 +74,7 @@ logging:
         tools:
           LoggerListener: DEBUG
 
+google:
+  secret:
+    key:
+      path: ./secret.json

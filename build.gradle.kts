@@ -9,8 +9,8 @@ buildscript {
 plugins {
 	id("org.springframework.boot") version "2.7.1"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	kotlin("jvm") version "1.6.21"
-	kotlin("plugin.spring") version "1.6.21"
+	kotlin("jvm") version "1.7.21"
+	kotlin("plugin.spring") version "1.7.21"
 }
 
 group = "co.vaale"
@@ -56,10 +56,21 @@ dependencies {
 	implementation ("com.squareup.okhttp3:okhttp:4.9.3")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-	//implementation("com.google.cloud:google-cloud-bigquery:2.31.1")
-
 	// https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-sns
 	implementation("com.amazonaws:aws-java-sdk-sns:1.12.393")
+
+
+	// https://mvnrepository.com/artifact/com.google.cloud/google-cloud-bigquery
+	implementation("com.google.cloud:google-cloud-bigquery:2.31.2")
+
+	// https://mvnrepository.com/artifact/com.google.api-client/google-api-client
+	implementation("com.google.api-client:google-api-client:2.0.0")
+
+    // https://mvnrepository.com/artifact/com.google.apis/google-api-services-drive
+	implementation("com.google.apis:google-api-services-drive:v3-rev197-1.25.0")
+
+	implementation("org.apache.commons:commons-csv:1.8")
+
 
 
 }

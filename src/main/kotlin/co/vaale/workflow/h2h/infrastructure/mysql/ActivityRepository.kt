@@ -47,17 +47,17 @@ class ActivityRepository: IActivityRepository {
 
                 rows.add(
                     mapOf(
-                        "activityId" to activityId,
-                        "activityName" to activityName,
-                        "whatsappTemplateName" to whatsappTemplateName,
-                        "whatsappTemplateComponent" to whatsappTemplateComponent,
-                        "whatsappTemplateAttributes" to whatsappTemplateAttributes,
-                        "whatsappTemplateChannelId" to whatsappTemplateChannelId,
-                        "smsTemplateText" to smsTemplateText,
-                        "smsTemplateAttributes" to smsTemplateAttributes,
-                        "smsTemplateChannelId" to smsTemplateChannelId,
-                        "segmentFileTo" to segmentFileTo,
-                        "segmentFileReply" to segmentFileReply
+                        "activity_id" to activityId,
+                        "activity_name" to activityName,
+                        "whatsapp_template_name" to whatsappTemplateName,
+                        "whatsapp_template_component" to whatsappTemplateComponent,
+                        "whatsapp_template_attributes" to whatsappTemplateAttributes,
+                        "whatsapp_template_channel_id" to whatsappTemplateChannelId,
+                        "sms_template_text" to smsTemplateText,
+                        "sms_template_attributes" to smsTemplateAttributes,
+                        "sms_template_channel_id" to smsTemplateChannelId,
+                        "segment_file_to" to segmentFileTo,
+                        "segment_file_reply" to segmentFileReply
                     )
                 )
             }

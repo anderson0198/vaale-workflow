@@ -41,6 +41,6 @@ interface StartWorkflowApi {
             ApiResponse(responseCode = "500", description = "Server error")
         ]
     )
-    fun startCollectionWorkflow(): ResponseEntity<InlineResponse200>
+    fun startCollectionWorkflow(): ResponseEntity<ApiRequestResponse?>?
 
 }
