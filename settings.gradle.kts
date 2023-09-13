@@ -1,1 +1,1 @@
-rootProject.name = "vaale-workflow"
+rootProject.name = "vaale-notification-workflow-ms"

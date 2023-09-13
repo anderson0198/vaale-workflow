@@ -5,6 +5,7 @@ import co.vaale.workflow.h2h.port.`in`.CollectUseCase
 import co.vaale.workflow.h2h.port.out.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.runApplication
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import java.sql.Time
 import java.time.LocalTime
@@ -25,6 +26,7 @@ class CollectServices : CollectUseCase {
 
 
 //el data es la fecha de sistema
+    @Async
 override fun invoke() : String? {
     val dataList = listOf(
         mapOf(
@@ -52,7 +54,7 @@ override fun invoke() : String? {
         ),
         mapOf(
             "client_id" to 2L,
-            "client_name" to "Brahian hincapie",
+            "client_name" to "alvaro",
             "client_document_number" to "987654321B",
             "client_cell_phone" to "3205431049",
             "entry_date_time" to "2023-09-02 14:45:00",
@@ -109,7 +111,6 @@ override fun invoke() : String? {
             //Agrupar procesos por id
             val agroupedBySegmentId = segmentList.groupBy { it["segmentId"] }
 
-            //println("gb $agroupedBySegmentId")
             //iterar procesos
             for ((id, segmentList) in agroupedBySegmentId) {
                 for (segment in segmentList) {
@@ -125,7 +126,7 @@ override fun invoke() : String? {
             //println("clientessss $clients")
                 //iterar clientes
                 //cambiar por clients
-                //println(clients.size)
+                println("el query trajo ${clients.size} filas")
                 val to = sendMailPort.getTo(activityList)
                     for (client in dataList){
                         //itero actividad
@@ -136,6 +137,7 @@ override fun invoke() : String? {
                     }
                 //enviar correo
                 if (to != null) {
+                    println("Envio EMAIL a $to")
                     sendMailPort.invoke(dataList, to)
                 }
 

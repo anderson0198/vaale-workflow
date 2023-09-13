@@ -53,8 +53,8 @@ class BigQyeryRepository : IBigQyeryRepository {
             val conditionWithFilterSQL = conditionList.joinToString(" AND ", " WHERE ", "")
             querySQL += conditionWithFilterSQL
         }
-        ///////
-        println(querySQL)
+
+        println("El query de este proceso es: $querySQL")
         try {
 
             val queryConfig = QueryJobConfiguration.newBuilder(

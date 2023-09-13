@@ -5,8 +5,10 @@ import org.springframework.boot.ExitCodeGenerator
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
+import org.springframework.scheduling.annotation.EnableAsync
 
 @SpringBootApplication
+@EnableAsync
 class Application : SpringBootServletInitializer(), CommandLineRunner {
 
 	override fun run(vararg args: String?) {

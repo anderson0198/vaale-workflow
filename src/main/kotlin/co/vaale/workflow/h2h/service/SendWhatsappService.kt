@@ -39,7 +39,8 @@ class SendWhatsappService : ISendWpp {
             .build()
         val call = client.newCall(request)
         val response = call.execute()
-        println("--response $response")
+        println("envio wpp a $to ")
+        println("Respuesta de WPP $response")
     }
 
 

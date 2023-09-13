@@ -1,6 +1,6 @@
 server:
   servlet:
-      context-path: /vaale-workflow-services
+      context-path: /vaale-notification-workflow-service
   port: 5000
 
 spring:
@@ -25,9 +25,9 @@ spring:
   # ===============================
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost/lenpli?serverTimezone=UTC
-    username: root
-    password: 12345678
+    url: jdbc:mysql://${DB_HOST}/${DB_NAME}?serverTimezone=UTC
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     hikari:
       connection-timeout: 50000 # Tiempo de espera en milisegundos
       minimum-idle: 1

@@ -33,7 +33,7 @@ class CreateSmsTextComponent : ICreateSmsText {
                         }
                     }
 
-                    //println("Mapa de atributos: $attributeMap")
+                    println("Envio SMS con estos atributos: $attributeMap")
                 }
             returnText = text
 

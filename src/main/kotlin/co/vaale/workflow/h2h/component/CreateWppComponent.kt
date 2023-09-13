@@ -29,7 +29,7 @@ class CreateWppComponent : ICreateWppComponent {
                             }
                         }
 
-                        println("Enviar wpp: $attributeMap")
+                        println("Enviar wpp con estos atributos: $attributeMap")
                     }
             returnComponent = component
         }

@@ -65,7 +65,7 @@ class CreateCSV : ICreateCSV{
                 //printer.println(csvLine)
                 //csvPrinter.printRecord(csvLine)
                 val csvContent = printer.toString()
-                println(csvContent)
+                //println(csvContent)
                 csvByteArray = csvContent.toByteArray(StandardCharsets.UTF_8)
             }
             printer.flush()

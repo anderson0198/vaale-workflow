@@ -21,54 +21,51 @@ class SegmentRepository : ISegmentRepository {
     private lateinit var dsl: DSLContext
     override fun getProcessByTime(data: Time): List<Map<String, Any>> {
         val rows: MutableList<Map<String, Any>> = ArrayList()
-        val conn = dsl.configuration().connectionProvider().acquire()
         val query = "{ CALL lenpli.getSegment(?)}"
 
-        var cStmt: CallableStatement? = null
-        var rs: ResultSet? = null
         try {
-            cStmt = conn.prepareCall(query)
-            cStmt.setTime(1, data)
-            rs = cStmt.executeQuery()
+            dsl.configuration().connectionProvider().acquire().use { conn ->
+                conn.prepareCall(query).use { cStmt ->
+                    cStmt.setTime(1, data)
+                    val rs = cStmt.executeQuery()
 
-            while (rs.next()) {
-                val segmentId = rs.getLong(1)
-                val segmentName = rs.getString(2)
+                    while (rs.next()) {
+                        val segmentId = rs.getLong(1)
+                        val segmentName = rs.getString(2)
 
-                val filterId = rs.getLong(3)
-                val filterOperation = rs.getString(4)
-                val filterAttributeName = rs.getString(5)
-                val filterSegmentId = rs.getLong(6)
-                val filterValue = rs.getString(7)
+                        val filterId = rs.getLong(3)
+                        val filterOperation = rs.getString(4)
+                        val filterAttributeName = rs.getString(5)
+                        val filterSegmentId = rs.getLong(6)
+                        val filterValue = rs.getString(7)
 
-                val processId = rs.getLong(8)
-                val processName = rs.getString(9)
-                val processSegmentId = rs.getLong(10)
-
-
-
+                        val processId = rs.getLong(8)
+                        val processName = rs.getString(9)
+                        val processSegmentId = rs.getLong(10)
 
 
-                rows.add(
-                    mapOf(
-                        "segmentId" to segmentId,
-                        "segmentName" to segmentName,
-                        "filterId" to filterId,
-                        "filterOperation" to filterOperation,
-                        "filterAttributeName" to filterAttributeName,
-                        "filterSegmentId" to filterSegmentId,
-                        "filterValue" to filterValue,
-                        "processId" to processId,
-                        "processName" to processName,
-                        "processSegmentId" to processSegmentId
-                    )
-                )
+
+
+
+                        rows.add(
+                            mapOf(
+                                "segmentId" to segmentId,
+                                "segmentName" to segmentName,
+                                "filterId" to filterId,
+                                "filterOperation" to filterOperation,
+                                "filterAttributeName" to filterAttributeName,
+                                "filterSegmentId" to filterSegmentId,
+                                "filterValue" to filterValue,
+                                "processId" to processId,
+                                "processName" to processName,
+                                "processSegmentId" to processSegmentId
+                            )
+                        )
+                    }
+                }
             }
         } catch (e: Exception) {
             throw SQLException(e.cause)
-        } finally {
-            cStmt?.close()
-            rs?.close()
         }
 
         return rows

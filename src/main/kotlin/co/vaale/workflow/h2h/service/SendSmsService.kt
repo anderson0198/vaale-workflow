@@ -84,7 +84,8 @@ class SendSmsService : ISendSms {
                 `in`.close()
 
                 // 7. Print result
-                //println(responseMsg.toString())
+                println("Envio SMS a $to")
+                println("respuesta de SMS $responseCode , ${responseMsg.toString()}")
                 response.message = responseMsg.toString()
             } else {
                 response.message = "Invalid user credentials"

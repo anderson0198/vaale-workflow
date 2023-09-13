@@ -23,7 +23,7 @@ class StartWorkflowApiController @Autowired constructor(private val objectMapper
     @Autowired
     private lateinit var collectUseCase: CollectUseCase
 
-    @GetMapping("/startCollectionWorkflow")
+    @PostMapping("/startCollectionWorkflow")
     override fun startCollectionWorkflow(): ResponseEntity<ApiRequestResponse?>? {
         val apiResponse = ApiRequestResponse()
         apiResponse.code = 200
